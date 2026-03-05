@@ -4,14 +4,17 @@ import sys
 def start_tcp_client(sAddr, iPort):
 
     # Create a TCP/IP socket
-    # define AF_INET:
-    # define SOCK_STREAM:
-
+    # define AF_INET: this means IPv4
+    # define SOCK_STREAM: this means using TCP
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     # Create tuple of the address and port
+    server_address = (sAddr, iPort)
     
     # connect to create the socket
-    
+    print(f"Connecting to {sAddr} port {iPort}")
+    sock.connect(server_address)
+
     # look out for exceptions
     try:
         # get str from the keyboard, convert to byte array
@@ -19,12 +22,17 @@ def start_tcp_client(sAddr, iPort):
         
         while ('QUIT' != sMessage):
             # convert str to bytearray
+            formatted_message = ("OVER: " + sMessage).encode()
             
             # send message to the socket
+            sock.sendall(formatted_message)
             
             # receive data (look for 1024 bytes)
+            data = sock.recv(1024)
+            print(f"Received from server: {data.decode()}")
             
             # get str from the keyboard, convert to byte array
+            sMessage = input('Enter messgage: ')
 
             pass
             
@@ -32,6 +40,9 @@ def start_tcp_client(sAddr, iPort):
     finally:
         # use a finally clause to close socket 
         # runs even if an exception occurs
+        print("Closing connection")
+        sock.close()
+
         pass
 
 
