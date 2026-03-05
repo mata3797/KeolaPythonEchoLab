@@ -40,12 +40,16 @@ def start_tcp_client(sAddr, iPort):
 sAddr = ''
 iPort = 36001
 
+
 # check that sys.argv contains 3 arguments
 # print a usage message and terminate if not
-
+if len(sys.argv) != 3:
+    print("Usage: python3 src/Python_Telnet.py <IP_ADDRESS> <PORT>")
+    sys.exit(1)
 
 # get the sAddr and iPort from the sys.argv
-
+sAddr = sys.argv[1]
+iPort = int(sys.argv[2]) # Convert port string to integer
 
 # Start the TCP client
 start_tcp_client(sAddr, iPort)
