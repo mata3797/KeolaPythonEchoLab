@@ -19,3 +19,17 @@ request = (
 print(">|")
 print(request, end="")
 print("|<")
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    try:
+        # connecting to the server, then send request
+        s.connect((theServerAddress, httpPort))
+        s.sendall(request.encode("utf-8"))
+
+        response = s.recv(4096)
+
+        print(">|")
+        print(response.decode(), end="")
+        print("|<")
+    except Exception as e:
+        print(f"An error occurred: {e}")
