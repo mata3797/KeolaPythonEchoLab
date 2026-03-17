@@ -23,3 +23,22 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print(">|")
         print(request, end="")
         print("|<")
+
+        s.sendall(request.encode("utf-8"))
+
+        data = s.recv(4096)
+        print("recv()")
+
+        response_text = data.decode(errors="ignore")
+        headers_end = response_text.find("\r\n\r\n")
+
+        headers = response_text[:headers_end]
+
+        content_length = 0
+
+        for line in headers.split("\r\n"):
+            if "Content-Length:" in line:
+                content_length = int(line.split(":")[1].strip())
+                break
+
+        print(f"Total Bytes expected from the Server: {content_length}")
