@@ -42,3 +42,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 break
 
         print(f"Total Bytes expected from the Server: {content_length}")
+
+        body_already_received = data[headers_end + 4 :]
+        total_received_bytes = len(body_already_received)
+
+        while total_received_bytes < content_length:
+            chunk = s.recv(4096)
+            print("recv()")
+            total_received_bytes += len(chunk)
+
+        print(f"Total Bytes Read: {total_received_bytes}")
